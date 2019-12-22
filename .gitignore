@@ -1,0 +1,12 @@
+.DS_Store
+.vscode
+
+# Ignore node_modules.
+/node_modules
+
+# Ignore all tempfiles.
+/tmp
+npm-debug.log
+
+.vscode-test/
+*.vsix

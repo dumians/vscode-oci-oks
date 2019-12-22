@@ -1,0 +1,32 @@
+vscode-oci-oks-tools:
+  jobs:
+    release:
+      traits:
+        version:
+          preprocess: 'finalize'
+          inject_effective_version: True
+        release:
+          nextversion: 'bump_minor'
+          rebase_before_release: True
+          release_callback: '.ci/prepare_release'
+        slack:
+          default_channel: 'internal_scp_workspace'
+          channel_cfgs:
+            internal_scp_workspace:
+              channel_name: 'k8s-oci-oks'
+              slack_cfg_name: 'scp_workspace'
+      steps:
+        build:
+          execute: 'build.sh'
+          output_dir: 'out'
+          timeout: '5m'
+        update-release:
+          execute: 'update-release.py'
+          depends:
+          - 'release'
+          inputs:
+            OUT_PATH: 'out_path'
+    head-update:
+      traits:
+        version: ~
+        draft_release: ~
