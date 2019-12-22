@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2019 by SAP SE or an SAP affiliate company. All rights reserved. This file is licensed under the Apache Software License, v. 2 except as noted otherwise in the LICENSE file
+// Copyright (c) 2019 by Oracle company. All rights reserved. This file is licensed under the Apache Software License, v. 2 except as noted otherwise in the LICENSE file
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -46,7 +46,7 @@ const {
   KubernetesResourceVirtualFileSystemProvider
 } = require('./oci-oks/virtualfs')
 const {
-  GardenctlImpl,
+  kubectlImpl,
   CheckPresentMessageMode
 } = require('./oci-oks/vscodeUtils')
 
@@ -56,7 +56,7 @@ const {
 tmp.setGracefulCleanup() // cleanup temporary files even when an uncaught exception occurs
 const explorer = new oci-oksTreeProvider()
 let cloudExplorer
-let gardenctlInst
+let kubectlInst
 
 /**
  * @param {vscode.ExtensionContext} context
@@ -92,9 +92,9 @@ async function activate(context) {
     ]
 
     context.subscriptions.push(...subscriptions)
-    gardenctlInst = new GardenctlImpl()
-    const isGardenCtlPresent = await gardenctlInst.checkPresent(CheckPresentMessageMode.Silent)
-    explorer.setIsGardenCtlPresent(isGardenCtlPresent)
+    kubectlInst = new kubectlImpl()
+    const iskubectlPresent = await kubectlInst.checkPresent(CheckPresentMessageMode.Silent)
+    explorer.setIskubectlPresent(iskubectlPresent)
   } else {
     vscode.window.showWarningMessage(clusterExplorerAPI.reason)
   }
@@ -236,8 +236,8 @@ async function shell(commandTarget) {
       await targetSeed(landscapeName, name, false)
     }
 
-    const gardenName = getGardenName(landscapeName)
-    await openShell(gardenName, projectName, targetNodeType, name, clusterNode)
+    const OciOksName = getOciOksName(landscapeName)
+    await openShell(OciOksName, projectName, targetNodeType, name, clusterNode)
   } catch (error) {
     cleanupCallback()
     vscode.window.showErrorMessage(error.message)
@@ -270,15 +270,15 @@ async function selectNode(kubeconfig) {
   return value.node;
 }
 
-async function openShell(gardenName, projectName = undefined, clusterType, clusterName, clusterNode) {
+async function openShell(OciOksName, projectName = undefined, clusterType, clusterName, clusterNode) {
   const terminalShellCmd = ['shell', clusterNode];
-  let terminalName = `shell on ${gardenName}`
+  let terminalName = `shell on ${OciOksName}`
   if (projectName) {
     terminalName += `/${projectName}`
   }
   terminalName += `/${clusterType}/${clusterName}/${clusterNode}`
 
-  await gardenctlInst.runAsTerminal(terminalShellCmd, terminalName);
+  await kubectlInst.runAsTerminal(terminalShellCmd, terminalName);
 }
 
 async function target(commandTarget) {
@@ -325,9 +325,9 @@ async function list(commandTarget) {
 
 async function listResourceType(listType, inTerminal = true) {
   if (inTerminal) {
-    return gardenctlInst.invokeInSharedTerminal(shellEsacpe(['ls', listType]))
+    return kubectlInst.invokeInSharedTerminal(shellEsacpe(['ls', listType]))
   }
-  return gardenctlInst.invoke(gardenctlInst.getShell()['ls'], listType)
+  return kubectlInst.invoke(kubectlInst.getShell()['ls'], listType)
 }
 
 async function selectListType() {
@@ -340,7 +340,7 @@ async function selectListType() {
     }
   }
   const pickItems = [
-    simpleQuickPickItem('gardens'),
+    simpleQuickPickItem('OciOkss'),
     simpleQuickPickItem('projects'),
     simpleQuickPickItem('seeds'),
     simpleQuickPickItem('shoots'),
@@ -381,18 +381,18 @@ async function registerUnregisterForLandscape(landscapeName, register, inTermina
   const registerUnregisterCmd = register ? 'register' : 'unregister'
   await targetLandscape(landscapeName, false)
   if (inTerminal) {
-    return gardenctlInst.invokeInSharedTerminal(shellEsacpe([registerUnregisterCmd]))
+    return kubectlInst.invokeInSharedTerminal(shellEsacpe([registerUnregisterCmd]))
   }
-  return gardenctlInst.invoke(gardenctlInst.getShell()[registerUnregisterCmd])
+  return kubectlInst.invoke(kubectlInst.getShell()[registerUnregisterCmd])
 }
 
 function registerUnregisterAll(register, inTerminal = true) {
   const registerUnregisterCmd = register ? 'register' : 'unregister'
   const allFlag = '--all'
   if (inTerminal) {
-    return gardenctlInst.invokeInSharedTerminal(shellEsacpe([registerUnregisterCmd, allFlag]))
+    return kubectlInst.invokeInSharedTerminal(shellEsacpe([registerUnregisterCmd, allFlag]))
   }
-  return gardenctlInst.invoke(gardenctlInst.getShell()[registerUnregisterCmd], allFlag)
+  return kubectlInst.invoke(kubectlInst.getShell()[registerUnregisterCmd], allFlag)
 }
 
 async function targetProjectNode(node, inTerminal = true) {
@@ -429,37 +429,37 @@ function getProjectNameFromNode(node) {
 }
 
 async function targetLandscape(landscapeName, inTerminal = true) {
-  const gardenName = getGardenName(landscapeName)
+  const OciOksName = getOciOksName(landscapeName)
 
   if (inTerminal) {
-    return gardenctlInst.invokeInSharedTerminal(shellEsacpe(['target', 'garden', gardenName]))
+    return kubectlInst.invokeInSharedTerminal(shellEsacpe(['target', 'OciOks', OciOksName]))
   }
 
-  return gardenctlInst.invoke(gardenctlInst.getShell().target.garden, gardenName)
+  return kubectlInst.invoke(kubectlInst.getShell().target.OciOks, OciOksName)
 }
 
 async function targetProject(landscapeName, projectName, inTerminal = true) {
   await targetLandscape(landscapeName, false)
   if (inTerminal) {
-    return gardenctlInst.invokeInSharedTerminal(shellEsacpe(['target', 'project', projectName]))
+    return kubectlInst.invokeInSharedTerminal(shellEsacpe(['target', 'project', projectName]))
   }
-  return gardenctlInst.invoke(gardenctlInst.getShell().target.project, projectName)
+  return kubectlInst.invoke(kubectlInst.getShell().target.project, projectName)
 }
 
 async function targetShoot(landscapeName, projectName, name, inTerminal = true) {
-  await targetProject(landscapeName, projectName, false) // TODO currently gardenctl does not allow to set garden and project as options so we need to target it one by one
+  await targetProject(landscapeName, projectName, false) // TODO currently kubectl does not allow to set OciOks and project as options so we need to target it one by one
   if (inTerminal) {
-    return gardenctlInst.invokeInSharedTerminal(shellEsacpe(['target', 'shoot', name]))
+    return kubectlInst.invokeInSharedTerminal(shellEsacpe(['target', 'shoot', name]))
   }
-  return gardenctlInst.invoke(gardenctlInst.getShell().target.shoot, name)
+  return kubectlInst.invoke(kubectlInst.getShell().target.shoot, name)
 }
 
 async function targetSeed(landscapeName, name, inTerminal = true) {
   await targetLandscape(landscapeName, false)
   if (inTerminal) {
-    return gardenctlInst.invokeInSharedTerminal(shellEsacpe(['target', 'seed', name]))
+    return kubectlInst.invokeInSharedTerminal(shellEsacpe(['target', 'seed', name]))
   }
-  return gardenctlInst.invoke(gardenctlInst.getShell().target.seed, name)
+  return kubectlInst.invoke(kubectlInst.getShell().target.seed, name)
 }
 
 function createShoot(commandTarget) {
@@ -500,9 +500,9 @@ function getDashboardUrl(landscapeName) {
   return dashboardUrl
 }
 
-function getGardenName(landscapeName) {
+function getOciOksName(landscapeName) {
   const config = configForLandscape(landscapeName)
-  return _.get(config, 'gardenName', landscapeName)
+  return _.get(config, 'OciOksName', landscapeName)
 }
 
 function getCloudResourceNode(commandTarget, type = undefined) {

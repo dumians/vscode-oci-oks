@@ -207,7 +207,7 @@ function getCheckContextMessage (errorMessageMode) {
 function shellEnvironment (baseEnvironment) {
   const env = Object.assign({}, baseEnvironment)
   const pathVariable = pathVariableName(env)
-  for (const tool of [ 'gardenctl' ]) {
+  for (const tool of [ 'kubectl' ]) {
     const toolPath = getToolPath(tool)
     if (toolPath) {
       const toolDirectory = path.dirname(toolPath)
@@ -367,14 +367,14 @@ function execPath (basePath) {
   return bin
 }
 
-class GardenctlImpl {
+class kubectlImpl {
   constructor (binFound = false) {
     this.context = {
       installDependenciesCallback: () => {}, // TODO
       pathfinder: undefined, // TODO
       binFound,
-      binPath: 'gardenctl',
-      binName: 'gardenctl'
+      binPath: 'kubectl',
+      binName: 'kubectl'
     }
   }
 
@@ -396,7 +396,7 @@ class GardenctlImpl {
   }
   getSharedTerminal () {
     if (!this.sharedTerminal) {
-      this.sharedTerminal = createTerminal('gardenctl')
+      this.sharedTerminal = createTerminal('kubectl')
       const disposable = onDidCloseTerminal(terminal => {
         if (terminal === this.sharedTerminal) {
           this.sharedTerminal = null
@@ -409,6 +409,6 @@ class GardenctlImpl {
 }
 
 module.exports = {
-  GardenctlImpl,
+  kubectlImpl,
   CheckPresentMessageMode
 }

@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2019 by SAP SE or an SAP affiliate company. All rights reserved. This file is licensed under the Apache Software License, v. 2 except as noted otherwise in the LICENSE file
+// Copyright (c) 2019 by Oracle SE or an Oracle affiliate company. All rights reserved. This file is licensed under the Apache Software License, v. 2 except as noted otherwise in the LICENSE file
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -50,20 +50,20 @@ class OciOksTreeProvider {
     this.collapsibleState = vscode.TreeItemCollapsibleState.Expanded
   }
 
-  setIsGardenCtlPresent(value) {
-    this.isGardenCtlPresent = value
+  setIskubectlPresent(value) {
+    this.iskubectlPresent = value
   }
 
   targetableContextValue() {
-    return this.isGardenCtlPresent ? ' oci-oks.targetable' : ''
+    return this.iskubectlPresent ? ' oci-oks.targetable' : ''
   }
 
   listableContextValue() {
-    return this.isGardenCtlPresent ? ' oci-oks.listable' : ''
+    return this.iskubectlPresent ? ' oci-oks.listable' : ''
   }
 
   shellableContextValue(hibernated) {
-    return this.isGardenCtlPresent && !hibernated ? ' oci-oks.shellable' : ''
+    return this.iskubectlPresent && !hibernated ? ' oci-oks.shellable' : ''
   }
 
   getTreeItem (element) {
@@ -342,8 +342,8 @@ function toShootTreeNode (project, shoot) {
     providerType: _.get(shoot, 'spec.provider.type'),
     hibernated: _.get(shoot, 'status.hibernated', false),
     version: _.get(shoot, 'spec.kubernetes.version'),
-    purpose: _.get(shoot, ['metadata', 'annotations', 'garden.sapcloud.io/purpose'], '-none-'),
-    createdBy: _.get(shoot, ['metadata', 'annotations', 'garden.sapcloud.io/createdBy']),
+    purpose: _.get(shoot, ['metadata', 'annotations', 'OciOks.Oraclecloud.io/purpose'], '-none-'),
+    createdBy: _.get(shoot, ['metadata', 'annotations', 'OciOks.Oraclecloud.io/createdBy']),
     seed: _.get(shoot, 'status.seed', '')
   }
 }
@@ -379,7 +379,7 @@ function toPlantTreeNode (project, plant) {
     providerType: _.get(plant, 'status.clusterInfo.cloud.type'),
     region: _.get(plant, 'status.clusterInfo.cloud.region'),
     version: _.get(plant, 'status.clusterInfo.kubernetes.version'),
-    createdBy: _.get(plant, ['metadata', 'annotations', 'garden.sapcloud.io/createdBy']),
+    createdBy: _.get(plant, ['metadata', 'annotations', 'OciOks.Oraclecloud.io/createdBy']),
     endpoints: _.get(plant, 'spec.endpoints'),
   }
 }

@@ -54,7 +54,7 @@
               ],
               "items": {
                 "type": "object",
-                "description": "Garden Landscape",
+                "description": "OciOks Landscape",
                 "default": {
                   "name": "landscape-xyz",
                   "kubeconfigPath": "",
@@ -66,9 +66,9 @@
                     "description": "Name of the Oracle Cloud Infrastructure cluster",
                     "default": "landscape-xyz"
                   },
-                  "gardenName": {
+                  "OciOksName": {
                     "type": "string",
-                    "description": "Optional Name of the corresponding (gardenctl) garden. Default: Name of the landscape"
+                    "description": "Optional Name of the corresponding (kubectl) OciOks. Default: Name of the landscape"
                   },
                   "kubeconfigPath": {
                     "type": "string",
@@ -81,7 +81,7 @@
                   },
                   "projects": {
                     "type": "array",
-                    "description": "Optional list of projects (names) to be shown. However, you should specify this list if you do not have operator rights on the garden cluster or if you want to see only those projects.",
+                    "description": "Optional list of projects (names) to be shown. However, you should specify this list if you do not have operator rights on the OciOks cluster or if you want to see only those projects.",
                     "optional": true,
                     "items": {
                       "type": "string",
