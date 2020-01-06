@@ -1,1 +1,1 @@
-Please refer to the [oci-oks contributor guide](https://github.com/oci-oks/documentation/blob/master/CONTRIBUTING.md).
+Please refer to the [oci-oke contributor guide](https://github.com/oci-oke/documentation/blob/master/CONTRIBUTING.md).

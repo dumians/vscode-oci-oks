@@ -28,33 +28,33 @@ const shellEsacpe = require('shell-escape')
 const yaml = require('js-yaml')
 
 const {
-  OciOksTreeProvider,
+  OciOkeTreeProvider,
   nodeType
-} = require('./oci-oks/oci-oks-tree')
+} = require('./oci-oke/oci-oke-tree')
 const {
   SecretClient,
   NodeClient
-} = require('./oci-oks/client')
+} = require('./oci-oke/client')
 const {
   configForLandscape,
   decodeBase64,
   cleanKubeconfig
-} = require('./oci-oks/utils')
+} = require('./oci-oke/utils')
 const {
   K8S_RESOURCE_SCHEME,
   kubefsUri,
   KubernetesResourceVirtualFileSystemProvider
-} = require('./oci-oks/virtualfs')
+} = require('./oci-oke/virtualfs')
 const {
   kubectlImpl,
   CheckPresentMessageMode
-} = require('./oci-oks/vscodeUtils')
+} = require('./oci-oke/vscodeUtils')
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 
 tmp.setGracefulCleanup() // cleanup temporary files even when an uncaught exception occurs
-const explorer = new oci-oksTreeProvider()
+const explorer = new oci-okeTreeProvider()
 let cloudExplorer
 let kubectlInst
 
@@ -66,7 +66,7 @@ async function activate(context) {
   if (clusterExplorerAPI.available) {
     cloudExplorer = clusterExplorerAPI.api
     cloudExplorer.registerCloudProvider({
-      cloudName: "oci-oks",
+      cloudName: "oci-oke",
       treeDataProvider: explorer,
       getKubeconfigYaml: getKubeconfig
     })
@@ -78,16 +78,16 @@ async function activate(context) {
     const resourceDocProvider = new KubernetesResourceVirtualFileSystemProvider(kubectl, vscode.workspace.workspaceFolders)
 
     const subscriptions = [
-      vscode.commands.registerCommand('vs-oci-oks.showInDashboard', showInDashboard),
-      vscode.commands.registerCommand('vs-oci-oks.createShoot', createShoot),
-      vscode.commands.registerCommand('vs-oci-oks.createProject', createProject),
-      vscode.commands.registerCommand('vs-oci-oks.register', register),
-      vscode.commands.registerCommand('vs-oci-oks.unregister', unregister),
-      vscode.commands.registerCommand('vs-oci-oks.list', list),
-      vscode.commands.registerCommand('vs-oci-oks.loadResource', loadResource),
-      vscode.commands.registerCommand('vs-oci-oks.target', target),
-      vscode.commands.registerCommand('vs-oci-oks.shell', shell),
-      vscode.commands.registerCommand('vs-oci-oks.openExtensionSettings', openExtensionSettings),
+      vscode.commands.registerCommand('vs-oci-oke.showInDashboard', showInDashboard),
+      vscode.commands.registerCommand('vs-oci-oke.createShoot', createShoot),
+      vscode.commands.registerCommand('vs-oci-oke.createProject', createProject),
+      vscode.commands.registerCommand('vs-oci-oke.register', register),
+      vscode.commands.registerCommand('vs-oci-oke.unregister', unregister),
+      vscode.commands.registerCommand('vs-oci-oke.list', list),
+      vscode.commands.registerCommand('vs-oci-oke.loadResource', loadResource),
+      vscode.commands.registerCommand('vs-oci-oke.target', target),
+      vscode.commands.registerCommand('vs-oci-oke.shell', shell),
+      vscode.commands.registerCommand('vs-oci-oke.openExtensionSettings', openExtensionSettings),
       vscode.workspace.registerFileSystemProvider(K8S_RESOURCE_SCHEME, resourceDocProvider, { /* TODO: case sensitive? */ })
     ]
 
@@ -154,7 +154,7 @@ function showInDashboard(commandTarget) {
 }
 
 function openExtensionSettings() {
-  vscode.commands.executeCommand('workbench.action.openSettings', 'oci-oks')
+  vscode.commands.executeCommand('workbench.action.openSettings', 'oci-oke')
 }
 
 function showShootInDashboard(shootNode) {
@@ -236,8 +236,8 @@ async function shell(commandTarget) {
       await targetSeed(landscapeName, name, false)
     }
 
-    const OciOksName = getOciOksName(landscapeName)
-    await openShell(OciOksName, projectName, targetNodeType, name, clusterNode)
+    const OciokeName = getOciokeName(landscapeName)
+    await openShell(OciokeName, projectName, targetNodeType, name, clusterNode)
   } catch (error) {
     cleanupCallback()
     vscode.window.showErrorMessage(error.message)
@@ -270,9 +270,9 @@ async function selectNode(kubeconfig) {
   return value.node;
 }
 
-async function openShell(OciOksName, projectName = undefined, clusterType, clusterName, clusterNode) {
+async function openShell(OciokeName, projectName = undefined, clusterType, clusterName, clusterNode) {
   const terminalShellCmd = ['shell', clusterNode];
-  let terminalName = `shell on ${OciOksName}`
+  let terminalName = `shell on ${OciokeName}`
   if (projectName) {
     terminalName += `/${projectName}`
   }
@@ -340,7 +340,7 @@ async function selectListType() {
     }
   }
   const pickItems = [
-    simpleQuickPickItem('OciOkss'),
+    simpleQuickPickItem('Ociokes'),
     simpleQuickPickItem('projects'),
     simpleQuickPickItem('seeds'),
     simpleQuickPickItem('shoots'),
@@ -429,13 +429,13 @@ function getProjectNameFromNode(node) {
 }
 
 async function targetLandscape(landscapeName, inTerminal = true) {
-  const OciOksName = getOciOksName(landscapeName)
+  const OciokeName = getOciokeName(landscapeName)
 
   if (inTerminal) {
-    return kubectlInst.invokeInSharedTerminal(shellEsacpe(['target', 'OciOks', OciOksName]))
+    return kubectlInst.invokeInSharedTerminal(shellEsacpe(['target', 'Ocioke', OciokeName]))
   }
 
-  return kubectlInst.invoke(kubectlInst.getShell().target.OciOks, OciOksName)
+  return kubectlInst.invoke(kubectlInst.getShell().target.Ocioke, OciokeName)
 }
 
 async function targetProject(landscapeName, projectName, inTerminal = true) {
@@ -447,7 +447,7 @@ async function targetProject(landscapeName, projectName, inTerminal = true) {
 }
 
 async function targetShoot(landscapeName, projectName, name, inTerminal = true) {
-  await targetProject(landscapeName, projectName, false) // TODO currently kubectl does not allow to set OciOks and project as options so we need to target it one by one
+  await targetProject(landscapeName, projectName, false) // TODO currently kubectl does not allow to set Ocioke and project as options so we need to target it one by one
   if (inTerminal) {
     return kubectlInst.invokeInSharedTerminal(shellEsacpe(['target', 'shoot', name]))
   }
@@ -500,9 +500,9 @@ function getDashboardUrl(landscapeName) {
   return dashboardUrl
 }
 
-function getOciOksName(landscapeName) {
+function getOciokeName(landscapeName) {
   const config = configForLandscape(landscapeName)
-  return _.get(config, 'OciOksName', landscapeName)
+  return _.get(config, 'OciokeName', landscapeName)
 }
 
 function getCloudResourceNode(commandTarget, type = undefined) {

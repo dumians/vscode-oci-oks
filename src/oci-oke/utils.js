@@ -21,7 +21,7 @@ const _ = require('lodash')
 const yaml = require('js-yaml')
 
 function configForLandscape (landscapeName) {
-  const config = vscode.workspace.getConfiguration('vscode-oci-oks-tools', null)
+  const config = vscode.workspace.getConfiguration('vscode-oci-oke-tools', null)
   const landscapes = _.get(config, 'landscapes')
   return _.find(landscapes, landscape => landscape.name === landscapeName)
 }

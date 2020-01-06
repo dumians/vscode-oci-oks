@@ -45,7 +45,7 @@ const nodeType = {
   NODE_TYPE_MISSING_CONFIGURATION: 'missingConfig',
 }
 
-class OciOksTreeProvider {
+class OciokeTreeProvider {
   constructor () {
     this.collapsibleState = vscode.TreeItemCollapsibleState.Expanded
   }
@@ -55,15 +55,15 @@ class OciOksTreeProvider {
   }
 
   targetableContextValue() {
-    return this.iskubectlPresent ? ' oci-oks.targetable' : ''
+    return this.iskubectlPresent ? ' oci-oke.targetable' : ''
   }
 
   listableContextValue() {
-    return this.iskubectlPresent ? ' oci-oks.listable' : ''
+    return this.iskubectlPresent ? ' oci-oke.listable' : ''
   }
 
   shellableContextValue(hibernated) {
-    return this.iskubectlPresent && !hibernated ? ' oci-oks.shellable' : ''
+    return this.iskubectlPresent && !hibernated ? ' oci-oke.shellable' : ''
   }
 
   getTreeItem (element) {
@@ -71,9 +71,9 @@ class OciOksTreeProvider {
       return new vscode.TreeItem(element.message, vscode.TreeItemCollapsibleState.None)
     } if (element.nodeType === nodeType.NODE_TYPE_MISSING_CONFIGURATION) {
       const treeItem = new vscode.TreeItem(getDisplayName(element), vscode.TreeItemCollapsibleState.None)
-      treeItem.contextValue = 'oci-oks.configurable'
+      treeItem.contextValue = 'oci-oke.configurable'
       treeItem.command = {
-        command: 'vs-oci-oks.openExtensionSettings',
+        command: 'vs-oci-oke.openExtensionSettings',
         title: 'Configure',
         arguments: []
       }
@@ -82,9 +82,9 @@ class OciOksTreeProvider {
       return treeItem
     } else if (element.nodeType === nodeType.NODE_TYPE_LANDSCAPE) {
       const treeItem = new vscode.TreeItem(getDisplayName(element), vscode.TreeItemCollapsibleState.Collapsed)
-      treeItem.iconPath = vscode.Uri.file(path.join(__dirname, '..', 'assets', 'oci-oks-logo.svg'))
+      treeItem.iconPath = vscode.Uri.file(path.join(__dirname, '..', 'assets', 'oci-oke-logo.svg'))
       treeItem.contextValue = [
-        'oci-oks.landscape',
+        'oci-oke.landscape',
         this.targetableContextValue(),
         this.listableContextValue(),
         k8s.CloudExplorerV1.SHOW_KUBECONFIG_COMMANDS_CONTEXT
@@ -93,7 +93,7 @@ class OciOksTreeProvider {
     } else if (element.nodeType === nodeType.NODE_TYPE_PROJECT) {
       const treeItem = new vscode.TreeItem(getDisplayName(element), vscode.TreeItemCollapsibleState.Collapsed)
       treeItem.contextValue = [
-        'oci-oks.project',
+        'oci-oke.project',
         this.targetableContextValue(),
         this.listableContextValue()
       ].join(',')
@@ -106,7 +106,7 @@ class OciOksTreeProvider {
       if (folderIcon) {
         treeItem.iconPath = vscode.Uri.file(path.join(__dirname, '..', 'assets', folderIcon))
       }
-      treeItem.contextValue = `oci-oks.folder.${element.childType}`
+      treeItem.contextValue = `oci-oke.folder.${element.childType}`
       return treeItem
     } else if (element.nodeType === nodeType.NODE_TYPE_SHOOT) {
       let label = element.name
@@ -116,7 +116,7 @@ class OciOksTreeProvider {
       const treeItem = new vscode.TreeItem(label, vscode.TreeItemCollapsibleState.None)
       const hibernated = element.hibernated ? '.hibernated' : ''
       treeItem.contextValue = [
-        `oci-oks.shoot${hibernated}`,
+        `oci-oke.shoot${hibernated}`,
         this.targetableContextValue(),
         this.listableContextValue(),
         this.shellableContextValue(element.hibernated),
@@ -129,7 +129,7 @@ class OciOksTreeProvider {
     } else if (element.nodeType === nodeType.NODE_TYPE_PLANT) {
       const treeItem = new vscode.TreeItem(getDisplayName(element), vscode.TreeItemCollapsibleState.None)
       treeItem.contextValue = [
-        'oci-oks.plant',
+        'oci-oke.plant',
         k8s.CloudExplorerV1.SHOW_KUBECONFIG_COMMANDS_CONTEXT
       ].join(',')
       treeItem.command = getLoadResourceCommand(element)
@@ -139,7 +139,7 @@ class OciOksTreeProvider {
     } else if (element.nodeType === nodeType.NODE_TYPE_SEED) {
       const treeItem = new vscode.TreeItem(getDisplayName(element), vscode.TreeItemCollapsibleState.None)
       treeItem.contextValue = [
-        'oci-oks.seed',
+        'oci-oke.seed',
         this.targetableContextValue(),
         this.listableContextValue(),
         this.shellableContextValue(false),
@@ -151,14 +151,14 @@ class OciOksTreeProvider {
       return treeItem
     } else if (element.nodeType === nodeType.NODE_TYPE_BACKUP_BUCKET) {
       const treeItem = new vscode.TreeItem(getDisplayName(element), vscode.TreeItemCollapsibleState.None)
-      treeItem.contextValue = 'oci-oks.backupbucket'
+      treeItem.contextValue = 'oci-oke.backupbucket'
       treeItem.command = getLoadResourceCommand(element)
       treeItem.iconPath = infraIcon(element.providerType)
       treeItem.tooltip = backupBucketTooltip(element)
       return treeItem
     } else if (element.nodeType === nodeType.NODE_TYPE_BACKUP_ENTRY) {
       const treeItem = new vscode.TreeItem(getDisplayName(element), vscode.TreeItemCollapsibleState.None)
-      treeItem.contextValue = 'oci-oks.backupentry'
+      treeItem.contextValue = 'oci-oke.backupentry'
       treeItem.command = getLoadResourceCommand(element)
       treeItem.iconPath = infraIcon(element.providerType)
       treeItem.tooltip = backupEntryTooltip(element)
@@ -172,7 +172,7 @@ class OciOksTreeProvider {
       if (!_.isEmpty(landscapesTree)) {
         return landscapesTree
       }
-      return asMissingConfigTreeNode('Configuration Required', 'You need to configure the oci-oks extension.\nClick to open Extension Settings.')
+      return asMissingConfigTreeNode('Configuration Required', 'You need to configure the oci-oke extension.\nClick to open Extension Settings.')
     } else if (element.nodeType === nodeType.NODE_TYPE_LANDSCAPE) {
       return clusterScopedResources(element)
     } else if (element.childType === nodeType.NODE_TYPE_PROJECT) {
@@ -195,11 +195,11 @@ class OciOksTreeProvider {
   }
 }
 
-module.exports = { OciOksTreeProvider, nodeType }
+module.exports = { OciokeTreeProvider, nodeType }
 
 function getLoadResourceCommand (element) {
   return {
-    command: 'vs-oci-oks.loadResource',
+    command: 'vs-oci-oke.loadResource',
     title: 'Load',
     arguments: [
       element
@@ -227,7 +227,7 @@ function asErrorTreeNode (message) {
 }
 
 function landscapes () {
-  const config = vscode.workspace.getConfiguration('vscode-oci-oks-tools', null)
+  const config = vscode.workspace.getConfiguration('vscode-oci-oke-tools', null)
   const landscapes = _.get(config, 'landscapes')
   return _.map(landscapes, landscape => {
     const { name, kubeconfigPath } = landscape
@@ -342,8 +342,8 @@ function toShootTreeNode (project, shoot) {
     providerType: _.get(shoot, 'spec.provider.type'),
     hibernated: _.get(shoot, 'status.hibernated', false),
     version: _.get(shoot, 'spec.kubernetes.version'),
-    purpose: _.get(shoot, ['metadata', 'annotations', 'OciOks.Oraclecloud.io/purpose'], '-none-'),
-    createdBy: _.get(shoot, ['metadata', 'annotations', 'OciOks.Oraclecloud.io/createdBy']),
+    purpose: _.get(shoot, ['metadata', 'annotations', 'Ocioke.Oraclecloud.io/purpose'], '-none-'),
+    createdBy: _.get(shoot, ['metadata', 'annotations', 'Ocioke.Oraclecloud.io/createdBy']),
     seed: _.get(shoot, 'status.seed', '')
   }
 }
@@ -379,7 +379,7 @@ function toPlantTreeNode (project, plant) {
     providerType: _.get(plant, 'status.clusterInfo.cloud.type'),
     region: _.get(plant, 'status.clusterInfo.cloud.region'),
     version: _.get(plant, 'status.clusterInfo.kubernetes.version'),
-    createdBy: _.get(plant, ['metadata', 'annotations', 'OciOks.Oraclecloud.io/createdBy']),
+    createdBy: _.get(plant, ['metadata', 'annotations', 'Ocioke.Oraclecloud.io/createdBy']),
     endpoints: _.get(plant, 'spec.endpoints'),
   }
 }
@@ -537,7 +537,7 @@ function settingsIcon () {
 }
 
 function iconColor () {
-  const config = vscode.workspace.getConfiguration('vscode-oci-oks-tools', null)
+  const config = vscode.workspace.getConfiguration('vscode-oci-oke-tools', null)
   const lightTheme = _.get(config, 'vscode-light-theme', true)
   if (lightTheme) {
     return 'black'

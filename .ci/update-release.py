@@ -34,6 +34,6 @@ gh_release = github_repo_helper.repository.release_from_tag(version_file_content
 
 gh_release.upload_asset(
     content_type='application/zip',
-    name=f'vscode-oci-oks-tools-{version_file_contents}.vsix',
+    name=f'vscode-oci-oke-tools-{version_file_contents}.vsix',
     asset=output_file_path.open(mode='rb'),
 )

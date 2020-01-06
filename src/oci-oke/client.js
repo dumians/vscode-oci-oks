@@ -22,12 +22,12 @@ const _ = require('lodash')
 const { configForLandscape } = require('./utils')
 
 const GKVEnum = {
-  SHOOTS: 'shoots.v1alpha1.core.oci-oks.cloud',
-  SEEDS: 'seeds.v1alpha1.core.oci-oks.cloud',
-  PLANTS: 'plants.v1alpha1.core.oci-oks.cloud',
-  PROJECTS: 'projects.v1alpha1.core.oci-oks.cloud',
-  BACKUPBUCKETS: 'backupbuckets.v1alpha1.core.oci-oks.cloud',
-  BACKUPENTRIES: 'backupentries.v1alpha1.core.oci-oks.cloud'
+  SHOOTS: 'shoots.v1alpha1.core.oci-oke.cloud',
+  SEEDS: 'seeds.v1alpha1.core.oci-oke.cloud',
+  PLANTS: 'plants.v1alpha1.core.oci-oke.cloud',
+  PROJECTS: 'projects.v1alpha1.core.oci-oke.cloud',
+  BACKUPBUCKETS: 'backupbuckets.v1alpha1.core.oci-oke.cloud',
+  BACKUPENTRIES: 'backupentries.v1alpha1.core.oci-oke.cloud'
 }
 
 class Kubectl {

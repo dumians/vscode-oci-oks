@@ -1,13 +1,13 @@
 {
-  "name": "vscode-oci-oks-tools",
-  "displayName": "oci-oks Kubernetes Service",
+  "name": "vscode-oci-oke-tools",
+  "displayName": "Oracle Container Engine for Kubernetes Extension",
   "publisher": "Oracle",
   "repository": {
     "type": "git",
-    "url": "https://github.com/dumians/vscode-oci-oks-tools"
+    "url": "https://github.com/dumians/vscode-oci-oke-tools"
   },
   "description": "Display Oracle Cloud Infrastructure Kubernetes Services within VS Code",
-  "version": "0.10.0",
+  "version": "0.1.0",
   "engines": {
     "vscode": "^1.34.0"
   },
@@ -17,7 +17,7 @@
   ],
   "keywords": [
     "kubernetes",
-    "oci-oks",
+    "oci-oke",
     "kubernetes-extension-cloud-provider"
   ],
   "activationEvents": [
@@ -29,7 +29,7 @@
       "title": "Oracle Cloud Kubernetes Tools",
       "type": "object",
       "properties": {
-        "vscode-oci-oks-tools": {
+        "vscode-oci-oke-tools": {
           "type": "object",
           "markdownDescription": "`Oracle Cloud Kubernetes` configuration",
           "default": {
@@ -54,7 +54,7 @@
               ],
               "items": {
                 "type": "object",
-                "description": "OciOks Landscape",
+                "description": "Ocioke Landscape",
                 "default": {
                   "name": "landscape-xyz",
                   "kubeconfigPath": "",
@@ -66,22 +66,22 @@
                     "description": "Name of the Oracle Cloud Infrastructure cluster",
                     "default": "landscape-xyz"
                   },
-                  "OciOksName": {
+                  "OciokeName": {
                     "type": "string",
-                    "description": "Optional Name of the corresponding (kubectl) OciOks. Default: Name of the landscape"
+                    "description": "Optional Name of the corresponding (kubectl) Ocioke. Default: Name of the landscape"
                   },
                   "kubeconfigPath": {
                     "type": "string",
-                    "description": "Path to the kubeconfig of the (virtual) OKS cluster"
+                    "description": "Path to the kubeconfig of the (virtual) oke cluster"
                   },
                   "dashboardUrl": {
                     "type": "string",
-                    "description": "oci-oks Dashboard URL",
+                    "description": "oci-oke Dashboard URL",
                     "default": "https://"
                   },
                   "projects": {
                     "type": "array",
-                    "description": "Optional list of projects (names) to be shown. However, you should specify this list if you do not have operator rights on the OciOks cluster or if you want to see only those projects.",
+                    "description": "Optional list of projects (names) to be shown. However, you should specify this list if you do not have operator rights on the Ocioke cluster or if you want to see only those projects.",
                     "optional": true,
                     "items": {
                       "type": "string",
@@ -97,119 +97,123 @@
     },
     "commands": [
       {
-        "command": "vs-oci-oks.showInDashboard",
+        "command": "vs-oci-oke.showInDashboard",
         "title": "Show In Dashboard",
-        "category": "oci-oks"
+        "category": "oci-oke"
       },
       {
-        "command": "vs-oci-oks.createShoot",
+        "command": "vs-oci-oke.createShoot",
         "title": "Create Shoot Cluster",
-        "category": "oci-oks"
+        "category": "oci-oke"
       },
       {
-        "command": "vs-oci-oks.createProject",
+        "command": "vs-oci-oke.createProject",
         "title": "Create Project",
-        "category": "oci-oks"
+        "category": "oci-oke"
       },
       {
-        "command": "vs-oci-oks.register",
+        "command": "vs-oci-oke.register",
         "title": "Landscape Admin - Register",
-        "category": "oci-oks"
+        "category": "oci-oke"
       },
       {
-        "command": "vs-oci-oks.unregister",
+        "command": "vs-oci-oke.unregister",
         "title": "Landscape Admin - Unregister",
-        "category": "oci-oks"
+        "category": "oci-oke"
       },
       {
-        "command": "vs-oci-oks.target",
+        "command": "vs-oci-oke.target",
         "title": "Target",
-        "category": "oci-oks"
+        "category": "oci-oke"
       },
       {
-        "command": "vs-oci-oks.shell",
+        "command": "vs-oci-oke.shell",
         "title": "Shell..",
-        "category": "oci-oks"
+        "category": "oci-oke"
       },
       {
-        "command": "vs-oci-oks.openExtensionSettings",
+        "command": "vs-oci-oke.openExtensionSettings",
         "title": "Open Extension Settings",
-        "category": "oci-oks"
+        "category": "oci-oke"
       },
       {
-        "command": "vs-oci-oks.list",
+        "command": "vs-oci-oke.list",
         "title": "List..",
-        "category": "oci-oks"
+        "category": "oci-oke"
       }
     ],
     "menus": {
       "view/item/context": [
         {
-          "command": "vs-oci-oks.showInDashboard",
-          "when": "viewItem =~ /oci-oks\\.shoot/i"
+          "command": "vs-oci-oke.showInDashboard",
+          "when": "viewItem =~ /oci-oke\\.shoot/i"
         },
         {
-          "command": "vs-oci-oks.showInDashboard",
-          "when": "viewItem =~ /oci-oks\\.folder\\.shoot/i"
+          "command": "vs-oci-oke.showInDashboard",
+          "when": "viewItem =~ /oci-oke\\.folder\\.shoot/i"
         },
         {
-          "command": "vs-oci-oks.showInDashboard",
-          "when": "viewItem =~ /oci-oks\\.project/i"
+          "command": "vs-oci-oke.showInDashboard",
+          "when": "viewItem =~ /oci-oke\\.project/i"
         },
         {
-          "command": "vs-oci-oks.showInDashboard",
-          "when": "viewItem =~ /oci-oks\\.landscape/i"
+          "command": "vs-oci-oke.showInDashboard",
+          "when": "viewItem =~ /oci-oke\\.landscape/i"
         },
         {
-          "command": "vs-oci-oks.register",
-          "when": "viewItem =~ /oci-oks\\.landscape/i"
+          "command": "vs-oci-oke.register",
+          "when": "viewItem =~ /oci-oke\\.landscape/i"
         },
         {
-          "command": "vs-oci-oks.unregister",
-          "when": "viewItem =~ /oci-oks\\.landscape/i"
+          "command": "vs-oci-oke.unregister",
+          "when": "viewItem =~ /oci-oke\\.landscape/i"
         },
         {
-          "command": "vs-oci-oks.register",
-          "when": "viewItem =~ /kubernetes\\.cloudExplorer\\.cloud\\.oci-oks/i"
+          "command": "vs-oci-oke.register",
+          "when": "viewItem =~ /kubernetes\\.cloudExplorer\\.cloud\\.oci-oke/i"
         },
         {
-          "command": "vs-oci-oks.unregister",
-          "when": "viewItem =~ /kubernetes\\.cloudExplorer\\.cloud\\.oci-oks/i"
+          "command": "vs-oci-oke.unregister",
+          "when": "viewItem =~ /kubernetes\\.cloudExplorer\\.cloud\\.oci-oke/i"
         },
         {
-          "command": "vs-oci-oks.openExtensionSettings",
-          "when": "viewItem =~ /kubernetes\\.cloudExplorer\\.cloud\\.oci-oks/i"
+          "command": "vs-oci-oke.openExtensionSettings",
+          "when": "viewItem =~ /kubernetes\\.cloudExplorer\\.cloud\\.oci-oke/i"
         },
         {
-          "command": "vs-oci-oks.createShoot",
-          "when": "viewItem =~ /oci-oks\\.folder\\.shoot/i"
+          "command": "vs-oci-oke.createShoot",
+          "when": "viewItem =~ /oci-oke\\.folder\\.shoot/i"
         },
         {
-          "command": "vs-oci-oks.createProject",
-          "when": "viewItem =~ /oci-oks\\.folder.project/i"
+          "command": "vs-oci-oke.createProject",
+          "when": "viewItem =~ /oci-oke\\.folder.project/i"
         },
         {
-          "command": "vs-oci-oks.target",
-          "when": "viewItem =~ /oci-oks\\.targetable/i"
+          "command": "vs-oci-oke.target",
+          "when": "viewItem =~ /oci-oke\\.targetable/i"
         },
         {
-          "command": "vs-oci-oks.shell",
-          "when": "viewItem =~ /oci-oks\\.shellable/i"
+          "command": "vs-oci-oke.shell",
+          "when": "viewItem =~ /oci-oke\\.shellable/i"
         },
         {
-          "command": "vs-oci-oks.openExtensionSettings",
-          "when": "viewItem =~ /oci-oks\\.configurable/i"
+          "command": "vs-oci-oke.openExtensionSettings",
+          "when": "viewItem =~ /oci-oke\\.configurable/i"
         },
         {
-          "command": "vs-oci-oks.list",
-          "when": "viewItem =~ /oci-oks\\.listable/i"
+          "command": "vs-oci-oke.list",
+          "when": "viewItem =~ /oci-oke\\.listable/i"
         }
       ]
     }
   },
   "scripts": {
     "postinstall": "node ./node_modules/vscode/bin/install",
-    "lint": "eslint --ext .js src"
+    "lint": "eslint --ext .js src",
+    "vscode:prepublish": "webpack --mode production",
+    "webpack": "webpack --mode development",
+    "webpack-dev": "webpack --mode development --watch",
+    "test-compile": "tsc -p ./"
   },
   "devDependencies": {
     "@types/mocha": "^2.2.42",
@@ -217,7 +221,9 @@
     "babel-eslint": "^10.0.1",
     "eslint": "^5.13.0",
     "typescript": "^3.3.1",
-    "vscode": "^1.1.28"
+    "vscode": "^1.1.28",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
   },
   "dependencies": {
     "js-yaml": "^3.13.1",
@@ -228,5 +234,5 @@
     "url-join": "^4.0.0",
     "vscode-kubernetes-tools-api": "^1.0.0"
   },
-  "icon": "src/assets/oci-oks-logo-256.png"
+  "icon": "src/assets/oci-oke-logo-256.png"
 }

@@ -30,7 +30,7 @@ const fs = require('fs')
 const querystring = require('querystring')
 const vscode = require('vscode')
 
-const K8S_RESOURCE_SCHEME = 'oci-oks'
+const K8S_RESOURCE_SCHEME = 'oci-oke'
 const KUBECTL_RESOURCE_AUTHORITY = 'loadkubernetescore'
 
 function kubefsUri (namespace, value, kubeconfigPath, outputFormat) {
