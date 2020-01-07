@@ -22,7 +22,7 @@ const _ = require('lodash')
 const { configForLandscape } = require('./utils')
 
 const GKVEnum = {
-  SHOOTS: 'shoots.v1alpha1.core.oci-oke.cloud',
+  SHOOTS: 'containerengine.eu-zurich-1.oraclecloud.com',
   SEEDS: 'seeds.v1alpha1.core.oci-oke.cloud',
   PLANTS: 'plants.v1alpha1.core.oci-oke.cloud',
   PROJECTS: 'projects.v1alpha1.core.oci-oke.cloud',

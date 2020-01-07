@@ -54,7 +54,7 @@ const {
 // your extension is activated the very first time the command is executed
 
 tmp.setGracefulCleanup() // cleanup temporary files even when an uncaught exception occurs
-const explorer = new oci-okeTreeProvider()
+const explorer = new OciOkeTreeProvider()
 let cloudExplorer
 let kubectlInst
 
@@ -66,7 +66,7 @@ async function activate(context) {
   if (clusterExplorerAPI.available) {
     cloudExplorer = clusterExplorerAPI.api
     cloudExplorer.registerCloudProvider({
-      cloudName: "oci-oke",
+      cloudName: "oci",
       treeDataProvider: explorer,
       getKubeconfigYaml: getKubeconfig
     })

@@ -45,7 +45,7 @@ const nodeType = {
   NODE_TYPE_MISSING_CONFIGURATION: 'missingConfig',
 }
 
-class OciokeTreeProvider {
+class OciOkeTreeProvider {
   constructor () {
     this.collapsibleState = vscode.TreeItemCollapsibleState.Expanded
   }
@@ -195,7 +195,7 @@ class OciokeTreeProvider {
   }
 }
 
-module.exports = { OciokeTreeProvider, nodeType }
+module.exports = { OciOkeTreeProvider, nodeType }
 
 function getLoadResourceCommand (element) {
   return {
@@ -525,6 +525,8 @@ function infraIcon (providerType) {
     case 'gke':
       logo = `gke-${color}.svg`
       break
+    case 'oci':
+      logo='oci-oke-logo-256.png'
     default:
       return undefined
   }
