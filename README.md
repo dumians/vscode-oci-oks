@@ -6,15 +6,12 @@ This `Visual Studio Code Kubernetes Tools` extension allows you to work with you
 
 - List
   - oci-oke projects
-  - shoot clusters
-  - plant clusters
-  - seed clusters [*]
+  -  clusters
+  -  clusters
+  -  clusters [*]
   - backup bucket resources [*]
   - backup entry resources [*]
-- Right click on landscape, shoot, plant or seed cluster to `Save Kubeconfig` / `Merge into Kubeconfig`
-- Right click on landscape or shoot to `Show In Dashboard`
-- Right click on landscape to `Create Project` in oci-oke dashboard
-- Right click on shoots list to `Create Shoot` in oci-oke dashboard
+
 - [Kubectl](https://github.com/oracle/oci) integration
   - Right click on shoot or seed to get a `Shell` to a node [*]
   - Right click on landscape, project, shoot or seed to `Target` with kubectl [*]
@@ -27,10 +24,6 @@ This `Visual Studio Code Kubernetes Tools` extension allows you to work with you
 - You have installed the [Kubernetes Tools](https://marketplace.visualstudio.com/items?itemName=ms-kubernetes-tools.vscode-kubernetes-tools) extension from the marketplace
 - Kubeconfig to (virtual) Ocioke cluster
 
-## Install
-1. [Install this extension from the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=oci-oke.vscode-oci-oke-tools)
-2. Configure the extension. See **Extension Settings** section below.
-3. In the `Sidebar`, click on the Kubernetes icon. There should be an entry `oci-oke` under the `Clouds` section.
 
 ### Install from VSIX
 
