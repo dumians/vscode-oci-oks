@@ -27,7 +27,6 @@ This `Visual Studio Code Kubernetes Tools` extension allows you to work with you
 
 ### Install from VSIX
 
-* Download .vsix file from latest [release](https://github.com/oci-oke/vscode-oci-oke-tools/releases) asset
 * In VSCode, open the [command palette](https://code.visualstudio.com/docs/getstarted/tips-and-tricks#_command-palette): `View` -> `Command Palette...` -> type in `Extensions: Install from VSIX...`
 * Choose .vsix file downloaded in first step
 
