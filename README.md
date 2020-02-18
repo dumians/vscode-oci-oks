@@ -14,11 +14,6 @@ This `Visual Studio Code Kubernetes Tools` extension allows you to work with you
 
 - [Kubectl](https://github.com/oracle/oci) integration
   - Right click on shoot or seed to get a `Shell` to a node [*]
-  - Right click on landscape, project, shoot or seed to `Target` with kubectl [*]
-  - Right click on landscape, project, shoot or seed to `List` with kubectl `Ociokes`, `projects`, `seeds`, `shoots` or `issues`. [*]
-  - Right click on landscape to `Register` / `Unregister` for the operator shift with kubectl [*]
-
-[*] oci-oke operator only
 
 ## Requirements
 - You have installed the [Kubernetes Tools](https://marketplace.visualstudio.com/items?itemName=ms-kubernetes-tools.vscode-kubernetes-tools) extension from the marketplace
@@ -35,10 +30,10 @@ This `Visual Studio Code Kubernetes Tools` extension allows you to work with you
 This extension contributes the following settings:
 
 * `vscode-oci-oke-tools.vscode-light-theme`: should match your configured theme style. Default: true
-* `vscode-oci-oke-tools.landscapes`: Required configuration for Ocioke landscapes
-* `vscode-oci-oke-tools.landscapes[].name`: Name of the Ocioke cluster
-* `vscode-oci-oke-tools.landscapes[].OciokeName`: Optional name of the corresponding (kubectl) Ocioke. Default: Name of the landscape
-* `vscode-oci-oke-tools.landscapes[].kubeconfigPath`: Path to the kubeconfig of the Ocioke cluster.
+* `vscode-oci-oke-tools.landscapes`: Required configuration for Oci-oke landscapes
+* `vscode-oci-oke-tools.landscapes[].name`: Name of the Oci-oke cluster
+* `vscode-oci-oke-tools.landscapes[].OciokeName`: Optional name of the corresponding (kubectl) Oci-oke. Default: Name of the landscape
+* `vscode-oci-oke-tools.landscapes[].kubeconfigPath`: Path to the kubeconfig of the Oci-oke cluster.
   * How to get the kubeconfig as regular project member: In the oci-oke dashboard, go to the `Members` section of your project and create a new service account. Afterwards you can download the kubeconfig of the service account.
 * `vscode-oci-oke-tools.landscapes[].dashboardUrl`: oci-oke dashboard URL,
 * `vscode-oci-oke-tools.landscapes[].projects[]`: Optional list of projects (names) to be shown. However, you should specify this list if you do not have operator rights on the Ocioke cluster or if you want to see only those projects.
